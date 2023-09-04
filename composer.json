@@ -1,0 +1,17 @@
+{
+    "name": "infinite-eye/media",
+    "type": "project",
+    "version": "0.0.1",
+    "autoload": {
+        "psr-4": {
+            "InfiniteEye\\Media\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "James",
+            "email": "james@infinite-eye.com"
+        }
+    ],
+    "require": {}
+}
