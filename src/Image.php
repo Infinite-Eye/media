@@ -192,14 +192,16 @@ class Image
             }
         }
 
-        if (!isset($this->_attrs['srcset'])) {
-            $image_srcset = wp_get_attachment_image_srcset($this->_id, $this->_size);
-            $tag .= ' srcset="' . $image_srcset . '"';
-        }
-
-        if (!isset($this->_attrs['sizes'])) {
-            $image_sizes = wp_get_attachment_image_sizes($this->_id, $this->_size);
-            $tag .= ' sizes="' . $image_sizes . '"';
+        if ($this->_type !== 'svg') {
+            if (!isset($this->_attrs['srcset'])) {
+                $image_srcset = wp_get_attachment_image_srcset($this->_id, $this->_size);
+                $tag .= ' srcset="' . $image_srcset . '"';
+            }
+    
+            if (!isset($this->_attrs['sizes'])) {
+                $image_sizes = wp_get_attachment_image_sizes($this->_id, $this->_size);
+                $tag .= ' sizes="' . $image_sizes . '"';
+            }
         }
 
         if (!$this->_inline) {
