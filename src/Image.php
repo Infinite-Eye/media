@@ -28,12 +28,14 @@ class Image
             $this->_id = intval($path['ID']);
             $this->_path = get_attached_file($this->_id);
             $this->_url = $path['url'];
+            $this->_alt = $path['alt'];
         } elseif (intval($path) > 0) {
 
             // WP Image
             $this->_id = intval($path);
             $this->_path = get_attached_file($this->_id);
             $this->_url = wp_get_attachment_url($this->_id);
+            $this->_alt = get_post_meta($this->_id, '_wp_attachment_image_alt', true);
         } else {
 
             // Image
@@ -172,6 +174,9 @@ class Image
             }
         }
 
+
+
+
         if ($this->_inline && $this->_type === 'svg') {
             $tag = '<div class="svg ' . implode(' ', $this->_classnames) . '">' . file_get_contents($this->_path) . '</div>';
         } elseif ($this->_lazy || (is_null($this->_lazy) && Media::$lazy)) {
@@ -179,6 +184,11 @@ class Image
             $tag = sprintf('<img data-src="%s" alt="%s" class="%s"', $this->get_url(), $this->_alt, implode(' ', $this->_classnames));
         } else {
             $tag = sprintf('<img src="%s" alt="%s" class="%s"', $this->get_url(), $this->_alt, implode(' ', $this->_classnames));
+        }
+
+        if (!$this->_inline) {
+            $this->_attrs['width'] = $this->_width;
+            $this->_attrs['height'] = $this->_height;
         }
 
 
@@ -197,7 +207,7 @@ class Image
                 $image_srcset = wp_get_attachment_image_srcset($this->_id, $this->_size);
                 $tag .= ' srcset="' . $image_srcset . '"';
             }
-    
+
             if (!isset($this->_attrs['sizes'])) {
                 $image_sizes = wp_get_attachment_image_sizes($this->_id, $this->_size);
                 $tag .= ' sizes="' . $image_sizes . '"';
