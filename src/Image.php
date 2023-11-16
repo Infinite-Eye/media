@@ -193,7 +193,10 @@ class Image
 
 
         // remove any empty attributes
-        $tag = preg_replace('/\S+=""/', '', $tag);
+        $replace_tag = preg_replace('/\S+=""/', '', $tag);
+        if (!is_null($replace_tag)) {
+            $tag = $replace_tag;
+        }
 
         // add attributes after so that they are not cleared if empty
         if (!empty($this->_attrs)) {
