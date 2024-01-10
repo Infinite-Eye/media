@@ -43,7 +43,7 @@ class Image
             $this->_url = trailingslashit(get_stylesheet_directory_uri()) . (!empty(Media::$image_path) ? trailingslashit(Media::$image_path) : '') . $path;
         }
 
-        if (!file_exists($this->_path)) {
+        if (!file_exists($this->_path) || !is_file($this->_path)) {
             return;
         }
 
