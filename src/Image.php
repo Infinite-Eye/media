@@ -208,7 +208,12 @@ class Image
         if ($this->_type !== 'svg') {
             if (!isset($this->_attrs['srcset'])) {
                 $image_srcset = wp_get_attachment_image_srcset($this->_id, $this->_size);
-                $tag .= ' srcset="' . $image_srcset . '"';
+                if ($this->_lazy || (is_null($this->_lazy) && Media::$lazy)) {
+                    $tag .= ' data-srcset="' . $image_srcset . '"';
+                }else{
+                    $tag .= ' srcset="' . $image_srcset . '"';
+                }
+                
             }
 
             if (!isset($this->_attrs['sizes'])) {
