@@ -388,6 +388,11 @@ class Image
     function calculate_image_size_ratio($id, $size = 'full')
     {
         $base_size = wp_get_attachment_image_src($id, $size);
+        
+        if (empty($base_size[1]) || empty($base_size[2])) {
+            return false;
+        }
+
         $h_ratio = $base_size[1] / $base_size[2];
         $w_ratio = $base_size[2] / $base_size[1];
 
