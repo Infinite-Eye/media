@@ -210,10 +210,9 @@ class Image
                 $image_srcset = wp_get_attachment_image_srcset($this->_id, $this->_size);
                 if ($this->_lazy || (is_null($this->_lazy) && Media::$lazy)) {
                     $tag .= ' data-srcset="' . $image_srcset . '"';
-                }else{
+                } else {
                     $tag .= ' srcset="' . $image_srcset . '"';
                 }
-                
             }
 
             if (!isset($this->_attrs['sizes'])) {
@@ -241,7 +240,12 @@ class Image
         $this->_size = $size;
         $this->_size_width = $orientation_width;
 
-        if (intval($this->_size) > 0) {
+        if (is_array($size) && count($size) >= 2) {
+            $image = $this->wpri_generate_file($this->_id, $size);
+            $this->_size = $this->wpri_get_size_key($size);
+            $this->_width = $image[1];
+            $this->_height = $image[2];
+        } elseif (intval($this->_size) > 0) {
             $size_data = $this->calculate_image_size_ratio($this->_id, 'full');
             $image = $this->wpri_generate_file($this->_id, $size_data);
             $this->_size = $this->wpri_get_size_key($size_data);
@@ -388,7 +392,7 @@ class Image
     function calculate_image_size_ratio($id, $size = 'full')
     {
         $base_size = wp_get_attachment_image_src($id, $size);
-        
+
         if (empty($base_size[1]) || empty($base_size[2])) {
             return false;
         }
