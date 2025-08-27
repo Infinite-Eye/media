@@ -350,7 +350,7 @@ class Image
         $editor = wp_get_image_editor($attached_file);
 
         if (isset($size[2]) && $size[2] === true) {
-            $editor->crop(0, 0, $size[0], $size[1], $new_size[0], $new_size[1]);
+            $editor->resize($size[0], $size[1], ['center', 'center']);
         } else {
             $editor->resize($size[0], $size[1]);
         }
