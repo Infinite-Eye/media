@@ -348,6 +348,9 @@ class Image
         }
 
         $editor = wp_get_image_editor($attached_file);
+        if(is_wp_error($editor)){
+            return false;
+        }
 
         if (isset($size[2]) && $size[2] === true) {
             $editor->resize($size[0], $size[1], ['center', 'center']);
